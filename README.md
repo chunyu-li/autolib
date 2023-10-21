@@ -16,8 +16,8 @@ python main.py -h
 
 1. 使用微信扫描下方二维码：
 
-   <img src="./images/qr.png" alt="qr" style="zoom: 25%;" />
+   <img src="./images/qr.png" alt="qr" width="200px" />
 
 2. 点击微信右上角“…”符号，选择“复制链接”。
 
-   <img src="./images/copy-url.png" alt="copy-url" style="zoom:25%;" />
+   <img src="./images/copy-url.png" alt="copy-url" width="200px" />
