@@ -1,0 +1,18 @@
+# Python cache files
+__pycache__/
+
+# PyCharm files
+.idea/
+
+# macOS dir files
+.DS_Store
+
+# Project packaging generated files
+/dist/
+*.egg-info/
+
+# VS Code configuration dir
+.vscode/
+
+# Jupyter Notebook cache files
+.ipynb_checkpoints/
