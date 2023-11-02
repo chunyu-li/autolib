@@ -16,3 +16,6 @@ __pycache__/
 
 # Jupyter Notebook cache files
 .ipynb_checkpoints/
+
+/book_seat/json-files/cookie.json
+/run.sh

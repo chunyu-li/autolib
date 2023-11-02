@@ -15,17 +15,15 @@ def check_cookie(cookie: str) -> None:
 
 
 def write_cookie(cookie: str):
-    json_filepath = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json"
-    )
+    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json")
     with open(json_filepath, "w") as f:
         json.dump({"cookie": cookie}, f)
 
 
 def read_cookie() -> str:
-    json_filepath = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json"
-    )
+    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json")
+    if not os.path.exists(json_filepath):
+        return None
     with open(json_filepath) as f:
         data = json.load(f)
         return data["cookie"]
@@ -45,9 +43,7 @@ def get_cookie_string(code):
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookiejar))
     opener.open(
         "http://wechat.v2.traceint.com/index.php/urlNew/auth.html?"
-        + urllib.parse.urlencode(
-            {"r": "https://web.traceint.com/web/index.html", "code": code, "state": 1}
-        )
+        + urllib.parse.urlencode({"r": "https://web.traceint.com/web/index.html", "code": code, "state": 1})
     )
     cookie_items = []
     for cookie in cookiejar:
@@ -58,7 +54,7 @@ def get_cookie_string(code):
 
 def get_cookie_from_url(url: str):
     cache_cookie = read_cookie()
-    if not is_cookie_expired(cache_cookie):
+    if cache_cookie and not is_cookie_expired(cache_cookie):
         return cache_cookie
     code = get_code(url)
     cookie_string = get_cookie_string(code)
