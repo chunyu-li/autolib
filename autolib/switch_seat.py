@@ -2,7 +2,7 @@ import http.client
 import json
 import time
 from .occupy_seat import all_area_empty_seats
-from .utils import display_desktop_notification, get_area_id, get_seat_key
+from .utils import desktop_notify, get_area_id, get_seat_key
 
 
 def get_good_id(cookie: str) -> int:
@@ -55,15 +55,12 @@ def switch_seat(cookie: str, good_id: int, area: str, seat: int):
 
     res_text = data.decode("utf-8")
     res_dict = json.loads(res_text)
-    print(res_dict)
-
-    # if "errors" in res_dict:
-    #     display_desktop_notification("选座", res_dict["errors"][0]["msg"])
-    #     print(res_dict["errors"][0]["msg"])
-    #     return
-    # if res_dict["data"]["userAuth"]["reserve"]["reserueSeat"]:
-    #     display_desktop_notification("选座", f"选座成功: {area} 区 {seat}")
-    #     print(f"选座成功: {area} 区 {seat}")
+    if res_dict["data"]["userAuth"]["goods"]["swapseat"]["useIt"]:
+        desktop_notify("换座", f"换座成功: {area} 区 {seat}")
+        print(f"换座成功: {area} 区 {seat}")
+    else:
+        print("换座失败")
+        print(res_dict)
 
 
 def detect_and_switch(cookie: str, detect_areas: list):

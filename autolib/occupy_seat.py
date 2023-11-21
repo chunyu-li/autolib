@@ -1,7 +1,7 @@
 import http.client
 import json
 import time
-from .utils import display_desktop_notification, get_area_id, get_seat_key
+from .utils import desktop_notify, get_area_id, get_seat_key
 
 
 def request_area(cookie: str, area: str) -> list:
@@ -39,7 +39,7 @@ def request_area(cookie: str, area: str) -> list:
     res_text = data.decode("utf-8")
     res_dict = json.loads(res_text)
     if "errors" in res_dict:
-        display_desktop_notification("错误信息", res_dict["errors"])
+        desktop_notify("错误信息", res_dict["errors"])
         print("错误信息", res_dict["errors"])
         return None
     return res_dict["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"]["seats"]
@@ -77,7 +77,7 @@ def notify_empty_seats(cookie: str, detect_areas: list):
             for area, seat in all_areas_seats:
                 seat_info_list.append(f"{area} 区 {seat} 可用")
             seat_info = ("\n").join(seat_info_list)
-            display_desktop_notification("获取空座位", seat_info)
+            desktop_notify("获取空座位", seat_info)
             print(seat_info)
             break
         time.sleep(1)
@@ -110,11 +110,11 @@ def occupy_seat(cookie: str, area: str, seat: int):
     res_text = data.decode("utf-8")
     res_dict = json.loads(res_text)
     if "errors" in res_dict:
-        display_desktop_notification("选座", res_dict["errors"][0]["msg"])
+        desktop_notify("选座", res_dict["errors"][0]["msg"])
         print(res_dict["errors"][0]["msg"])
         return
     if res_dict["data"]["userAuth"]["reserve"]["reserueSeat"]:
-        display_desktop_notification("选座", f"选座成功: {area} 区 {seat}")
+        desktop_notify("选座", f"选座成功: {area} 区 {seat}")
         print(f"选座成功: {area} 区 {seat}")
 
 

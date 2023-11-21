@@ -2,7 +2,7 @@ import os
 import json
 
 
-def display_desktop_notification(title: str, info: str):
+def desktop_notify(title: str, info: str):
     os.system(f'osascript -e \'display notification "{info}" with title "{title}"\'')
 
 

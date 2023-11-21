@@ -1,6 +1,6 @@
 import argparse
 from argparse import RawTextHelpFormatter
-from lib_helper import (
+from autolib import (
     detect_and_occupy,
     detect_and_switch,
     notify_empty_seats,
@@ -12,7 +12,7 @@ from lib_helper import (
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="BJTU 图书馆座位预约小工具",
+        description="BJTU 图书馆自动占座脚本",
         add_help=False,
         formatter_class=RawTextHelpFormatter,
     )

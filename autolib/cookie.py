@@ -5,12 +5,12 @@ import http.cookies
 import requests
 import json
 import os
-from .utils import display_desktop_notification
+from .utils import desktop_notify
 
 
 def check_cookie(cookie: str) -> None:
     if is_cookie_expired(cookie):
-        display_desktop_notification("cookie 检验", "cookie 已过期，请重新获取")
+        desktop_notify("cookie 检验", "cookie 已过期，请重新获取")
         raise ValueError("cookie 已过期，请重新获取")
 
 
