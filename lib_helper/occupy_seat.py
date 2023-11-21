@@ -28,17 +28,7 @@ def request_area(cookie: str, area: str) -> list:
 
     headers = {
         "cookie": cookie,
-        "Host": "wechat.v2.traceint.com",
-        "app-version": "2.0.14",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 NetType/WIFI MicroMessenger/6.8.0(0x16080000) MacWechat/3.8.3(0x13080310) XWEB/30817 Flue",
         "content-type": "application/json",
-        "accept": "*/*",
-        "origin": "https://web.traceint.com",
-        "sec-fetch-site": "same-site",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-dest": "empty",
-        "referer": "https://web.traceint.com/",
-        "accept-language": "en",
     }
 
     conn.request("POST", "/index.php/graphql/", payload, headers)
@@ -78,7 +68,6 @@ def all_area_empty_seats(cookie: str, detect_areas: list) -> list:
 
 def notify_empty_seats(cookie: str, detect_areas: list):
     print("获取空座位中...")
-    start_time = time.monotonic()
     while True:
         all_areas_seats = all_area_empty_seats(cookie, detect_areas)
         if all_areas_seats is None:
@@ -91,10 +80,10 @@ def notify_empty_seats(cookie: str, detect_areas: list):
             display_desktop_notification("获取空座位", seat_info)
             print(seat_info)
             break
-        time.sleep(1 - ((time.monotonic() - start_time) % 1))  # 每秒检测一次空座位
+        time.sleep(1)
 
 
-def book_seat(cookie: str, area: str, seat: int):
+def occupy_seat(cookie: str, area: str, seat: int):
     seat_key = get_seat_key(area, seat)
     area_id = get_area_id(area)
 
@@ -110,17 +99,7 @@ def book_seat(cookie: str, area: str, seat: int):
 
     headers = {
         "cookie": cookie,
-        "Host": "wechat.v2.traceint.com",
-        "app-version": "2.0.14",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 NetType/WIFI MicroMessenger/6.8.0(0x16080000) MacWechat/3.8.3(0x13080310) XWEB/30817 Flue",
         "content-type": "application/json",
-        "accept": "*/*",
-        "origin": "https://web.traceint.com",
-        "sec-fetch-site": "same-site",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-dest": "empty",
-        "referer": "https://web.traceint.com/",
-        "accept-language": "en",
     }
 
     conn.request("POST", "/index.php/graphql/", payload, headers)
@@ -139,17 +118,16 @@ def book_seat(cookie: str, area: str, seat: int):
         print(f"选座成功: {area} 区 {seat}")
 
 
-def book_empty_seat(cookie: str, detect_areas: list):
+def detect_and_occupy(cookie: str, detect_areas: list):
     if detect_areas is None:
         raise RuntimeError("你需要指定检测区域")
     print("获取空座位中...")
-    start_time = time.monotonic()
     while True:
         all_areas_seats = all_area_empty_seats(cookie, detect_areas)
         if all_areas_seats is None:
             break
         if len(all_areas_seats) != 0:
             area, seat = all_areas_seats[0]
-            book_seat(cookie, area, int(seat))
+            occupy_seat(cookie, area, int(seat))
             break
-        time.sleep(1 - ((time.monotonic() - start_time) % 1))  # 每秒检测一次空座位
+        time.sleep(1)

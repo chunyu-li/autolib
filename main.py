@@ -1,7 +1,8 @@
 import argparse
 from argparse import RawTextHelpFormatter
-from book_seat import (
-    book_empty_seat,
+from lib_helper import (
+    detect_and_occupy,
+    detect_and_switch,
     notify_empty_seats,
     reserve_seat,
     get_cookie_from_url,
@@ -26,8 +27,12 @@ def parse_args():
         "--task",
         type=str,
         required=True,
-        choices=["book-empty-seat", "notify-empty-seats", "reserve"],
-        help="你可以选择以下任务:\nbook-empty-seat: 持续检测是否有空座位，有就自动选座\nnotify-empty-seats: 持续检测是否有空座位，有就桌面提醒\nreserve: 预约明天的座位，程序会在 8:10 定时预约",
+        choices=["occupy-seat", "switch-seat", "notify-empty-seats", "reserve"],
+        help="你可以选择以下任务:\n"
+        + "occupy-seat: 持续检测是否有空座位，有就自动选座\n"
+        + "switch-seat: 持续检测是否有空座位，并用使用换座道具\n"
+        + "notify-empty-seats: 持续检测是否有空座位，有就桌面提醒\n"
+        + "reserve: 预约明天的座位，程序会在 8:10 定时预约",
     )
     parser.add_argument(
         "--cookie",
@@ -69,8 +74,10 @@ def main(args):
     if not args.cookie and args.url:
         args.cookie = get_cookie_from_url(args.url)
     check_cookie(args.cookie)
-    if args.task == "book-empty-seat":
-        book_empty_seat(args.cookie, detect_areas=args.detect_areas)
+    if args.task == "book-seat":
+        detect_and_occupy(args.cookie, detect_areas=args.detect_areas)
+    elif args.task == "switch-seat":
+        detect_and_switch(args.cookie, detect_areas=args.detect_areas)
     elif args.task == "reserve":
         reserve_seat(args.cookie, args.reserve_area, args.reserve_seat)
     elif args.task == "notify-empty-seats":
