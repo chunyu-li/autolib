@@ -1,4 +1,4 @@
-## BJTU 图书馆选座小工具
+## BJTU 图书馆自动占座脚本
 
 ### 安装依赖
 
@@ -14,11 +14,11 @@ python main.py -h
 
 ### 使用案例
 
-自动检测第三自习室的空座位并订座
+自动检测第三自习室的空座位并占座
 
 ```shell
 python main.py \
-    --task book-empty-seat \
+    --task occupy-seat \
     --detect-areas 3 \
     --url "http://wechat.v2.traceint.com/index.php/graphql/?operationName=index&query=query%7BuserAuth%7BtongJi%7Brank%7D%7D%7D&code=001I9pFa16U9jG0SnkFa1wi4jX3I9pF2&state=1"
 ```

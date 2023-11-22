@@ -12,7 +12,7 @@ from autolib import (
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="BJTU 图书馆自动占座脚本",
+        description="BJTU 我去图书馆自动占座脚本",
         add_help=False,
         formatter_class=RawTextHelpFormatter,
     )
@@ -74,7 +74,7 @@ def main(args):
     if not args.cookie and args.url:
         args.cookie = get_cookie_from_url(args.url)
     check_cookie(args.cookie)
-    if args.task == "book-seat":
+    if args.task == "occupy-seat":
         detect_and_occupy(args.cookie, detect_areas=args.detect_areas)
     elif args.task == "switch-seat":
         detect_and_switch(args.cookie, detect_areas=args.detect_areas)

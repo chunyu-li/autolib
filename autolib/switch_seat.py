@@ -56,8 +56,8 @@ def switch_seat(cookie: str, good_id: int, area: str, seat: int):
     res_text = data.decode("utf-8")
     res_dict = json.loads(res_text)
     if res_dict["data"]["userAuth"]["goods"]["swapseat"]["useIt"]:
-        desktop_notify("换座", f"换座成功: {area} 区 {seat}")
-        print(f"换座成功: {area} 区 {seat}")
+        desktop_notify("换座", f"换座成功: {area} 区 {seat} 号")
+        print(f"换座成功: {area} 区 {seat} 号")
     else:
         print("换座失败")
         print(res_dict)

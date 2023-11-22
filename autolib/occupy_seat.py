@@ -114,8 +114,8 @@ def occupy_seat(cookie: str, area: str, seat: int):
         print(res_dict["errors"][0]["msg"])
         return
     if res_dict["data"]["userAuth"]["reserve"]["reserueSeat"]:
-        desktop_notify("选座", f"选座成功: {area} 区 {seat}")
-        print(f"选座成功: {area} 区 {seat}")
+        desktop_notify("选座", f"选座成功: {area} 区 {seat} 号")
+        print(f"选座成功: {area} 区 {seat} 号")
 
 
 def detect_and_occupy(cookie: str, detect_areas: list):
