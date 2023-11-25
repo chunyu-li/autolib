@@ -1,7 +1,7 @@
 import websocket
 import json
 import http.client
-from .utils import get_seat_key, get_area_id
+from .utils import get_seat_key, get_area_id, init_all_seat_mappings
 import schedule
 import time
 
@@ -74,6 +74,7 @@ def reserve_seat(cookie: str, area: str, seat: int):
     schedule.every().day.at("20:10").do(queue_and_reserve, cookie=cookie)
 
     print("正在等待时间到达8:10...")
+    init_all_seat_mappings(cookie, [area])
     while True:
         if stop:
             break

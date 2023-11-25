@@ -15,13 +15,13 @@ def check_cookie(cookie: str) -> None:
 
 
 def write_cookie(cookie: str):
-    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json")
+    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cookie.json")
     with open(json_filepath, "w") as f:
         json.dump({"cookie": cookie}, f)
 
 
 def read_cookie() -> str:
-    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json-files", "cookie.json")
+    json_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cookie.json")
     if not os.path.exists(json_filepath):
         return None
     with open(json_filepath) as f:
