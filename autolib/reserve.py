@@ -38,20 +38,20 @@ def reserve_seat(cookie: str, area: str, seat: int):
         # 排队并发送预订请求
         queue(cookie)
         conn = http.client.HTTPSConnection("wechat.v2.traceint.com")
-        payload = (
-            '{"operationName":"save","query":"mutation save($key: String!, $libid: Int!, $captchaCode: String, $captcha: String) {\\n userAuth {\\n prereserve {\\n save(key: $key, libId: $libid, captcha: $captcha, captchaCode: $captchaCode)\\n }\\n }\\n}","variables":{"key":"'
-            + seat_key
-            + '.","libid":'
-            + str(area_id)
-            + ',"captchaCode":"","captcha":""}}'
-        )
+
+        seat_key = seat_key + "."
+        json_data = {
+            "operationName": "save",
+            "query": "mutation save($key: String!, $libid: Int!, $captchaCode: String, $captcha: String) {\n userAuth {\n prereserve {\n save(key: $key, libId: $libid, captcha: $captcha, captchaCode: $captchaCode)\n }\n }\n}",
+            "variables": {"key": seat_key, "libid": area_id, "captchaCode": "", "captcha": ""},
+        }
 
         headers = {
             "cookie": cookie,
             "content-type": "application/json",
         }
 
-        conn.request("POST", "/index.php/graphql/", payload, headers)
+        conn.request("POST", "/index.php/graphql/", json.dumps(json_data), headers)
 
         res = conn.getresponse()
         data = res.read()

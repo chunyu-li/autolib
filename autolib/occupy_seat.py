@@ -82,20 +82,18 @@ def occupy_seat(cookie: str, area: str, seat: int):
 
     conn = http.client.HTTPSConnection("wechat.v2.traceint.com")
 
-    payload = (
-        '{"operationName":"reserueSeat","query":"mutation reserueSeat($libId: Int!, $seatKey: String!, $captchaCode: String, $captcha: String!) {\\n userAuth {\\n reserve {\\n reserueSeat(\\n libId: $libId\\n seatKey: $seatKey\\n captchaCode: $captchaCode\\n captcha: $captcha\\n )\\n }\\n }\\n}","variables":{"seatKey":"'
-        + seat_key
-        + '","libId":'
-        + str(area_id)
-        + ',"captchaCode":"","captcha":""}}'
-    )
+    json_data = {
+        "operationName": "reserueSeat",
+        "query": "mutation reserueSeat($libId: Int!, $seatKey: String!, $captchaCode: String, $captcha: String!) {\n userAuth {\n reserve {\n reserueSeat(\n libId: $libId\n seatKey: $seatKey\n captchaCode: $captchaCode\n captcha: $captcha\n )\n }\n }\n}",
+        "variables": {"seatKey": seat_key, "libId": area_id, "captchaCode": "", "captcha": ""},
+    }
 
     headers = {
         "cookie": cookie,
         "content-type": "application/json",
     }
 
-    conn.request("POST", "/index.php/graphql/", payload, headers)
+    conn.request("POST", "/index.php/graphql/", json.dumps(json_data), headers)
 
     res = conn.getresponse()
     data = res.read()
