@@ -26,8 +26,37 @@ def get_good_id(cookie: str) -> int:
 
     res_text = data.decode("utf-8")
     res_dict = json.loads(res_text)
-    good_id = int(res_dict["data"]["userAuth"]["goods"]["list"][0]["id"])
-    return good_id
+    goods_list = res_dict["data"]["userAuth"]["goods"]["list"]
+    if goods_list == []:
+        return None
+    else:
+        return int(goods_list[0]["id"])
+
+
+def buy_good(cookie: str):
+    conn = http.client.HTTPSConnection("wechat.v2.traceint.com")
+    headers = {
+        "Cookie": cookie,
+        "content-type": "application/json",
+    }
+    json_data = {
+        "operationName": "buy",
+        "query": "mutation buy($goodsType: String!) {\n userAuth {\n shop {\n buy(goodsType: $goodsType)\n }\n }\n}",
+        "variables": {
+            "goodsType": "swapseat",
+        },
+    }
+
+    conn.request("POST", "/index.php/graphql/", json.dumps(json_data), headers)
+    response = conn.getresponse()
+    data = response.read()
+
+    res_text = data.decode("utf-8")
+    res_dict = json.loads(res_text)
+    if res_dict["data"]["userAuth"]["shop"]["buy"]:
+        print("购买换座道具成功")
+    else:
+        raise RuntimeError("购买换座道具失败")
 
 
 def switch_seat(cookie: str, good_id: int, area: str, seat: int):
@@ -69,6 +98,9 @@ def detect_and_switch(cookie: str, detect_areas: list):
     print("切换座位中...")
     init_all_seat_mappings(cookie, detect_areas)
     good_id = get_good_id(cookie)
+    if good_id is None:
+        buy_good(cookie)
+        good_id = get_good_id(cookie)
     while True:
         all_areas_seats = all_area_empty_seats(cookie, detect_areas)
         if all_areas_seats is None:

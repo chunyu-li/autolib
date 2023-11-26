@@ -30,7 +30,7 @@ def parse_args():
         choices=["occupy-seat", "switch-seat", "notify-empty-seats", "reserve"],
         help="你可以选择以下任务:\n"
         + "occupy-seat: 持续检测是否有空座位，有就自动选座\n"
-        + "switch-seat: 持续检测是否有空座位，并用使用换座道具\n"
+        + "switch-seat: 持续检测是否有空座位，并使用换座道具，如果没有剩余的换座道具会自动购买\n"
         + "notify-empty-seats: 持续检测是否有空座位，有就桌面提醒\n"
         + "reserve: 预约明天的座位，程序会在 8:10 定时预约",
     )

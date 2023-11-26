@@ -1,6 +1,6 @@
-## BJTU 图书馆自动占座脚本
+# BJTU 图书馆自动占座脚本
 
-### 安装依赖
+## 安装依赖
 
 ```shell
 pip install -r requirements.txt
@@ -12,7 +12,7 @@ pip install -r requirements.txt
 python main.py -h
 ```
 
-### 使用案例
+## 使用案例
 
 自动检测第三自习室的空座位并占座
 
@@ -23,7 +23,7 @@ python main.py \
     --url "http://wechat.v2.traceint.com/index.php/graphql/?operationName=index&query=query%7BuserAuth%7BtongJi%7Brank%7D%7D%7D&code=001I9pFa16U9jG0SnkFa1wi4jX3I9pF2&state=1"
 ```
 
-### 微信扫码获取链接步骤
+## 微信扫码获取链接步骤
 
 1. 使用微信扫描下方二维码：
 
