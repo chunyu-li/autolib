@@ -1,10 +1,7 @@
 import argparse
 from argparse import RawTextHelpFormatter
 from autolib import (
-    detect_and_occupy,
-    detect_and_switch,
-    notify_empty_seats,
-    reserve_seat,
+    Automator,
     get_cookie_from_url,
     check_cookie,
 )
@@ -74,14 +71,15 @@ def main(args):
     if not args.cookie and args.url:
         args.cookie = get_cookie_from_url(args.url)
     check_cookie(args.cookie)
+    automator = Automator(args.cookie)
     if args.task == "occupy-seat":
-        detect_and_occupy(args.cookie, detect_areas=args.detect_areas)
+        automator.detect_and_occupy(detect_areas=args.detect_areas)
     elif args.task == "switch-seat":
-        detect_and_switch(args.cookie, detect_areas=args.detect_areas)
+        automator.detect_and_switch(detect_areas=args.detect_areas)
     elif args.task == "reserve":
-        reserve_seat(args.cookie, args.reserve_area, args.reserve_seat)
+        automator.reserve_seat(args.reserve_area, args.reserve_seat)
     elif args.task == "notify-empty-seats":
-        notify_empty_seats(cookie=args.cookie, detect_areas=args.detect_areas)
+        automator.notify_empty_seats(detect_areas=args.detect_areas)
     else:
         raise ValueError("task 输入值错误")
 
